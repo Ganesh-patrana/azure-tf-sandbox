@@ -52,7 +52,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
   # 1. The Node Pool (The VMs)
   default_node_pool {
     name           = "default"
-    node_count     = 1 # FinOps: We only need 1 node for testing
+    node_count     = 2 # FinOps: We only need 1 node for testing
     vm_size        = "Standard_D2s_v3" # FinOps: The cheapest burstable VM ($30/mo, covered by free tier)
     
     # 2. The Network Attachment (Plugging it into Day 9's room)

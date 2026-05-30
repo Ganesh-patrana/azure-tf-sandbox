@@ -1,0 +1,12 @@
+# Default values for Amadeus Booking Engine.
+# Any engineer can override these values during installation.
+
+replicaCount: 2
+
+image:
+  repository: nginx
+  tag: "latest"
+
+service:
+  type: ClusterIP
+  port: 80
