@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   # Dynamically names the deployment based on the installation name
   name: {{ .Release.Name }}-webapp
+  namespace: {{ .Release.Namespace }} 
 spec:
   # Injects the replica count from values.yaml
   replicas: {{ .Values.replicaCount }}
