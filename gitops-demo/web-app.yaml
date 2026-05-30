@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: amadeus-web-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+      - name: nginx-server
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        # --- NEW SRE CONFIGURATION ---
+        resources:
+          requests:
+            cpu: "100m" # Requests 1/10th of a CPU core
+            memory: "128Mi"
+          limits:
+            cpu: "250m" # Hard limit of 1/4th of a CPU core
+            memory: "256Mi"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: amadeus-web-service
+spec:
+  type: ClusterIP
+  selector:
+    app: web
+  ports:
+  - port: 80
+    targetPort: 80
