@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: nginx-server
-        image: nginx:latest
+        image: nginx:amadeus-broken-v1  # <-- Intentionally break this
         ports:
         - containerPort: 80
         # --- NEW SRE CONFIGURATION ---
