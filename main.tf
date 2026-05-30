@@ -48,7 +48,9 @@ resource "azurerm_kubernetes_cluster" "aks" {
   location            = azurerm_resource_group.lab_rg.location
   resource_group_name = azurerm_resource_group.lab_rg.name
   dns_prefix          = "akssandbox"
-
+# Add these two lines to stop Terraform from trying to disable them
+  oidc_issuer_enabled       = true
+  workload_identity_enabled = true
   # 1. The Node Pool (The VMs)
   default_node_pool {
     name           = "default"
