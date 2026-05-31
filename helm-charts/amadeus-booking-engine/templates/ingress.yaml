@@ -1,17 +1,25 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ .Release.Name }}-ingress      # <-- Dynamic Name
-  namespace: {{ .Release.Namespace }}    # <-- THE FIX: Explicit Namespace
+  name: {{ .Release.Name }}-ingress
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    # This wakes up the Cert-Manager robot!
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
   ingressClassName: nginx
+  tls:
+  - hosts:
+    - "4.224.189.87.nip.io"
+    secretName: amadeus-api-tls-secret # Cert-Manager will safely lock the certificate here
   rules:
-  - http:
+  - host: "4.224.189.87.nip.io"
+    http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: {{ .Release.Name }}-service  # <-- Dynamic Service Link
+            name: {{ .Release.Name }}-service
             port:
               number: 80
