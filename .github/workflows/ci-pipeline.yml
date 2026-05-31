@@ -1,0 +1,29 @@
+name: Amadeus CI Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - 'amadeus-app/**' # The robot only wakes up if the Python code changes!
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Login to Azure Container Registry
+      uses: azure/docker-login@v1
+      with:
+        login-server: ${{ secrets.ACR_LOGIN_SERVER }}
+        username: ${{ secrets.ACR_USERNAME }}
+        password: ${{ secrets.ACR_PASSWORD }}
+
+    - name: Build and Push Docker Image
+      run: |
+        cd amadeus-app
+        # Build the image and tag it with version 1.0.0
+        docker build -t ${{ secrets.ACR_LOGIN_SERVER }}/amadeus-flight-api:1.0.0 .
+        # Push the image to the secure Azure vault
+        docker push ${{ secrets.ACR_LOGIN_SERVER }}/amadeus-flight-api:1.0.0
