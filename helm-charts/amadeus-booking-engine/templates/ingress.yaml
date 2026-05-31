@@ -1,7 +1,8 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: amadeus-global-ingress
+  name: {{ .Release.Name }}-ingress      # <-- Dynamic Name
+  namespace: {{ .Release.Namespace }}    # <-- THE FIX: Explicit Namespace
 spec:
   ingressClassName: nginx
   rules:
@@ -11,6 +12,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: british-airways-booking-service
+            name: {{ .Release.Name }}-service  # <-- Dynamic Service Link
             port:
-              number: 80 # This matches the port exposed by your service.yaml
+              number: 80
