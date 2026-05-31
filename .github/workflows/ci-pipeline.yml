@@ -5,6 +5,7 @@ on:
     branches: [ "main" ]
     paths:
       - 'amadeus-app/**' # The robot only wakes up if the Python code changes!
+    workflow_dispatch:  
 
 jobs:
   build-and-push:
